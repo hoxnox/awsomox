@@ -6,8 +6,8 @@ ArcLoad = require("awsomox.arcload")
 
 
 return {
-    arcload = function(size, timeout)
-        return ArcLoad.new(size, timeout)
+    arcload = function(height, width, timeout)
+        return ArcLoad.new(height, width, timeout)
     end
 }
 

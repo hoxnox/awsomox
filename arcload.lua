@@ -22,8 +22,9 @@ function cpu_count()
     return cpu_cnt
 end
 
-function ArcLoad.new(height, timeout)
+function ArcLoad.new(height, width, timeout)
   height = height or 45
+  width = width or 45
   local self = setmetatable({}, ArcLoad)
   self.charts = {}
   self.timeout = timeout or 1
@@ -43,7 +44,8 @@ function ArcLoad.new(height, timeout)
     self.charts[i].color = theme.fg_normal
     self.charts[i].border_color = theme.bg_normal
   end
-  self.charts[2].forced_width = height
+  self.charts[2].forced_height = height
+  self.charts[2].forced_width = width
   self.timer = gears.timer.start_new(self.timeout, function() return self:step() end)
   self.timer:emit_signal("timeout")
   return self.charts[2]
