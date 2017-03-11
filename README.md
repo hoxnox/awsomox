@@ -6,10 +6,11 @@ arcload - arc widget shows system loadavg
 
 Usage:
 
-    cd ~/.config
-    git clone https://github.com/hoxnox/awesomox.git
+    cd ~/.config/awesome
+    git clone https://github.com/hoxnox/awsomox.git
 
-    arcload = require("awesomox/arcload")
-    widget = arcload(45, 1)
+    awsomox = require("awsomox")
+    arccpu = awsomox.arcload()
+    arccpu32 = awsomox.arcload(32, 32, 1) -- 32pt sized
 
 
