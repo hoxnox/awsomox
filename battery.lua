@@ -1,6 +1,7 @@
 -- @author Merder Kim <hoxnox@gmail.com>
 -- @date 20170329
 -- @license Apache 2.0 
+-- note: Awesome 4.1 required
 
 local io = { open  = io.open, popen = io.popen }
 local wibox = require("wibox")
@@ -23,7 +24,7 @@ function Battery.new(height, width, timeout)
 
   -- TODO: replace with place when be available in gentoo portage
   self.textbox = wibox.widget.textbox()
-  self.text_place = wibox.container.margin(self.textbox, 2, 2, 2, 2)
+  self.text_place = wibox.container.place(self.textbox)
   self.text_place.widget = self.textbox
 
   --self.widget = gears.shape.rounded_rect(cr, width/2, height - 5, 2)
