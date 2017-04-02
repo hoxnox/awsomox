@@ -7,8 +7,8 @@ local io = { open  = io.open, popen = io.popen }
 local wibox = require("wibox")
 local gears = require("gears")
 
-local Battery = {}
-Battery.__index = Battery
+local Memory = {}
+Memory.__index = Memory
 
 function dbg(v)
   local f = io.open("/tmp/lua_debug.txt", "a")
@@ -17,8 +17,8 @@ function dbg(v)
   f:close()
 end
 
-function Battery.new(height, width, timeout)
-  local self = setmetatable({}, Battery)
+function Memory.new(height, width, timeout)
+  local self = setmetatable({}, Memory)
   height = height or 45
   width = width or 45
 
@@ -44,29 +44,19 @@ function Battery.new(height, width, timeout)
   return self.widget
 end
 
-function bat_now()
-    local f = io.open("/sys/class/power_supply/BAT0/charge_full")
-    local charge_full = tonumber(f:read("*all"))
+function mem_now()
+    local f = io.open("/proc/meminfo")
+    local total_ = string.gmatch(f:read(), 'MemTotal:%s+(%d+)')
+    local free_  = string.gmatch(f:read(), 'MemFree:%s+(%d+)')
+    local available_ = string.gmatch(f:read(), 'MemAvailable:%s+(%d+)')
     f:close()
-    local f = io.open("/sys/class/power_supply/BAT0/charge_now")
-    local charge_now = tonumber(f:read("*all"))
-    f:close()
-    return charge_now/charge_full
+    local total = total_()
+    local available = available_()
+    return (total-available)/total
 end
 
-function power_status()
-    local f = io.open("/sys/class/power_supply/BAT0/status")
-    local status = f:read("*all")
-    f:close()
-    if status == 'Discharging\n' then
-        return '⚛' -- there should be U+1F50B
-    elseif status == 'Charging\n' then
-        return '⚡' -- maybe something interesting here
-    end
-    return '⚡'
-end
-
-function Battery:set_val(val)
+function Memory:set_val(val)
+    dbg('setval')
     if val > 1 then
         self.widget.value = 1
     elseif val < 0 then
@@ -75,24 +65,24 @@ function Battery:set_val(val)
         self.widget.value = val
     end
 
-    if val < 0.15 and status == 'Discharging\n' then
+    if val > 0.9 then
         self.widget.color = '#ff7d76'
-        self.textbox:set_markup('<span foreground="#ff7d76">⚠</span>')
-    elseif val < 0.3 then
+        self.textbox:set_markup('<span foreground="#ff7d76">⚅</span>')
+    elseif val > 0.8 then
         self.widget.color = '#ffdfa2'
-        self.textbox:set_markup('<span foreground="#ffdfa2">'..power_status()..'</span>')
+        self.textbox:set_markup('<span foreground="#ffdfa2">⚅</span>')
     else
         self.widget.color = theme.fg_normal
-        self.textbox:set_markup('<span foreground="'..theme.fg_normal..'">'..power_status()..'</span>')
+        self.textbox:set_markup('<span foreground="'..theme.fg_normal..'">⚅</span>')
     end
 end
 
-function Battery:step()
-    self:set_val(bat_now())
+function Memory:step()
+    self:set_val(mem_now())
     self.timer.timeout = self.timeout
     self.timer:again()
     return true
 end
 
-return Battery
+return Memory
 
