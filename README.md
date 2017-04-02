@@ -1,4 +1,4 @@
-#Awesome window manager widgets
+# Awesome window manager widgets
 
 Awesome 4.1 required!
 
