@@ -5,6 +5,7 @@
 ArcLoad = require("awsomox.arcload")
 Battery = require("awsomox.battery")
 Memory = require("awsomox.memory")
+Filesystem = require("awsomox.filesystem")
 
 
 return {
@@ -16,6 +17,9 @@ return {
     end,
     memory = function(height, width, timeout)
         return Memory.new(height, width, timeout)
+    end,
+    filesystem = function(height, width, timeout)
+        return Filesystem.new(height, width, timeout)
     end
 }
 

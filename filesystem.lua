@@ -7,8 +7,8 @@ local io = { open  = io.open, popen = io.popen }
 local wibox = require("wibox")
 local gears = require("gears")
 
-local Memory = {}
-Memory.__index = Memory
+local Filesystem = {}
+Filesystem.__index = Filesystem
 
 function dbg(v)
   local f = io.open("/tmp/lua_debug.txt", "a")
@@ -17,10 +17,11 @@ function dbg(v)
   f:close()
 end
 
-function Memory.new(height, width, timeout)
-  local self = setmetatable({}, Memory)
+function Filesystem.new(name, height, width, timeout)
+  local self = setmetatable({}, Filesystem)
   height = height or 45
   width = width or 45
+  self.name = name or '/'
 
   self.textbox = wibox.widget.textbox()
   self.text_place = wibox.container.place(self.textbox)
@@ -44,18 +45,17 @@ function Memory.new(height, width, timeout)
   return self.widget
 end
 
-function mem_now()
-    local f = io.open("/proc/meminfo")
-    local total_ = string.gmatch(f:read(), 'MemTotal:%s+(%d+)')
-    local free_  = string.gmatch(f:read(), 'MemFree:%s+(%d+)')
-    local available_ = string.gmatch(f:read(), 'MemAvailable:%s+(%d+)')
-    f:close()
-    local total = total_()
-    local available = available_()
-    return (total-available)/total
+function fs_now(name)
+    local f = io.popen("df "..name)
+    _ = f:read()
+    local nums = string.gmatch(f:read(), '%S+')
+    _ = nums()
+    local total = nums()
+    local used = nums()
+    return used/total
 end
 
-function Memory:set_val(val)
+function Filesystem:set_val(val)
     if val > 1 then
         self.widget.value = 1
     elseif val < 0 then
@@ -66,22 +66,22 @@ function Memory:set_val(val)
 
     if val > 0.9 then
         self.widget.color = '#ff7d76'
-        self.textbox:set_markup('<span foreground="#ff7d76">⚅</span>')
+        self.textbox:set_markup('<span foreground="#ff7d76">✇</span>')
     elseif val > 0.8 then
         self.widget.color = '#ffdfa2'
-        self.textbox:set_markup('<span foreground="#ffdfa2">⚅</span>')
+        self.textbox:set_markup('<span foreground="#ffdfa2">✇</span>')
     else
         self.widget.color = theme.fg_normal
-        self.textbox:set_markup('<span foreground="'..theme.fg_normal..'">⚅</span>')
+        self.textbox:set_markup('<span foreground="'..theme.fg_normal..'">✇</span>')
     end
 end
 
-function Memory:step()
-    self:set_val(mem_now())
+function Filesystem:step()
+    self:set_val(fs_now(self.name))
     self.timer.timeout = self.timeout
     self.timer:again()
     return true
 end
 
-return Memory
+return Filesystem
 
