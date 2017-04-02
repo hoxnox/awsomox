@@ -39,7 +39,7 @@ function Filesystem.new(name, height, width, timeout)
   self.widget.forced_height = height
   self.widget.forced_width = width
 
-  self.timeout = timeout or 1
+  self.timeout = timeout or 60
   self.timer = gears.timer.start_new(self.timeout, function() return self:step() end)
   self.timer:emit_signal("timeout")
   return self.widget

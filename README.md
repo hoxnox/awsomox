@@ -2,22 +2,27 @@
 
 Awesome 4.1 required!
 
-arcload - arc widget shows system loadavg
+- arcload - arc widget shows system loadavg
+- battery - arc widget shows battery status
+- memory - arc widget shows memory usage
+- filesystem - arc widget shows filesystem usage
 
-![arcload](https://habrastorage.org/files/d60/280/518/d602805184d8482eb6ff982721d4dd40.png)
+![battery](https://habrastorage.org/files/0d0/4e7/0b7/0d04e70b7f3d41dc8639dc60e26bd2c5.png)
 
-battery - arc widget shows battery status
-
-![battery](https://habrastorage.org/files/f53/1cf/ea6/f531cfea6ce64c3c9e6b9a7f726d142e.png)
-
-Usage:
+Installing:
 
     cd ~/.config/awesome
     git clone https://github.com/hoxnox/awsomox.git
 
-    awsomox = require("awsomox")
-    arccpu = awsomox.arcload()
-    arccpu32 = awsomox.arcload(32, 32, 1) -- 32pt sized
+usage in rc.lua:
 
-    battery = awesomox.battery()
+    awsomox = require("awsomox")
+
+    arccpu = awsomox.arcload()
+    battery = awsomox.battery()
+    memory = awsomox.memory()
+    filesystem = awsomox.filesystem('/home')
+
+    -- if defaults too big
+    arccpu32 = awsomox.arcload(32, 32, 1) -- 32pt sized
 
