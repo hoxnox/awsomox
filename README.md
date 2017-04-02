@@ -8,7 +8,7 @@ arcload - arc widget shows system loadavg
 
 battery - arc widget shows battery status
 
-![battery](https://habrastorage.org/files/ebd/c7c/3c8/ebdc7c3c8ddc4baf8b337747fe27159d.png)
+![battery](https://habrastorage.org/files/f53/1cf/ea6/f531cfea6ce64c3c9e6b9a7f726d142e.png)
 
 Usage:
 
