@@ -63,9 +63,9 @@ function power_status()
     if status == 'Discharging\n' then
         return '⚛' -- there should be U+1F50B
     elseif status == 'Charging\n' then
-        return '⚡'
+        return '⚡' -- maybe something interesting here
     end
-    return '?'
+    return '⚡'
 end
 
 function Battery:set_val(val)
