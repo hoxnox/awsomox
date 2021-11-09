@@ -31,7 +31,7 @@ function Battery.new(height, width, timeout)
   self.widget.min_value = 0
   self.widget.max_value = 1
   self.widget.paddings = 4
-  self.widget.border_width = 5
+  self.widget.border_width = width/9
   self.widget.value = 0
   self.widget.color = theme.fg_normal
   self.widget.border_color = theme.bg_normal
@@ -45,17 +45,17 @@ function Battery.new(height, width, timeout)
 end
 
 function bat_now()
-    local f = io.open("/sys/class/power_supply/BAT0/charge_full")
+    local f = io.open("/sys/class/power_supply/BAT1/charge_full")
     local charge_full = tonumber(f:read("*all"))
     f:close()
-    local f = io.open("/sys/class/power_supply/BAT0/charge_now")
+    local f = io.open("/sys/class/power_supply/BAT1/charge_now")
     local charge_now = tonumber(f:read("*all"))
     f:close()
     return charge_now/charge_full
 end
 
 function power_status()
-    local f = io.open("/sys/class/power_supply/BAT0/status")
+    local f = io.open("/sys/class/power_supply/BAT1/status")
     local status = f:read("*all")
     f:close()
     if status == 'Discharging\n' then

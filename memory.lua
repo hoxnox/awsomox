@@ -31,7 +31,7 @@ function Memory.new(height, width, timeout)
   self.widget.min_value = 0
   self.widget.max_value = 1
   self.widget.paddings = 4
-  self.widget.border_width = 5
+  self.widget.border_width = width/9
   self.widget.value = 0
   self.widget.color = theme.fg_normal
   self.widget.border_color = theme.bg_normal

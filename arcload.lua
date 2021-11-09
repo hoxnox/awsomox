@@ -39,7 +39,7 @@ function ArcLoad.new(height, width, timeout)
     self.charts[i].min_value = 0
     self.charts[i].max_value = self.cpu_count
     self.charts[i].paddings = 4
-    self.charts[i].border_width = 5
+    self.charts[i].border_width = width/9
     self.charts[i].value = 0
     self.charts[i].color = theme.fg_normal
     self.charts[i].border_color = theme.bg_normal
